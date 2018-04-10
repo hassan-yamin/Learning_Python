@@ -1,0 +1,106 @@
+Execution finished
+Printing results : 
+************************************************
+CacheL1D:Results
+CacheL1D:TotalAccess	13123461
+CacheL1D:TotalHits	12302795
+CacheL1D:TotalMiss	820666
+CacheL1D:MissRate	6.25343%
+CacheL1D:CleanWriteBack	0
+CacheL1D:DirtyWriteBack	0
+CacheL1D:Eviction	820154
+CacheL1D:Bypass	0
+CacheL1D:NVMways:reads	0
+CacheL1D:NVMways:writes	0
+CacheL1D:SRAMways:reads	12301905
+CacheL1D:SRAMways:writes	821556
+CacheL1D:instructionsDistribution
+CacheL1D:DATA_READ	13122443
+CacheL1D:DATA_WRITE	1018
+CacheL1D:Predictor:TotalMiss:	820666
+CacheL1D:Predictor:NVMConflictMiss:	0
+CacheL1D:Predictor:SRAMConflictMiss:	0
+CacheL1D:Predictor:ColdMiss:	9464
+CacheL1D:Predictor:CapacityMiss:	811202
+CacheL1D:Predictor:PredictorErrors:
+CacheL1D:Predictor:TotalNVMError	0
+CacheL1D:Predictor:NVMError:FromWB	0
+CacheL1D:Predictor:NVMError:FromCore	0
+CacheL1D:Predictor:TotalMigration	0
+CacheL1D:Predictor:SRAMError	0
+CacheL1D:Predictor:BPError	0
+******
+CacheL1I:Results
+CacheL1I:TotalAccess	52492262
+CacheL1I:TotalHits	52491865
+CacheL1I:TotalMiss	397
+CacheL1I:MissRate	0.000756302%
+CacheL1I:CleanWriteBack	0
+CacheL1I:DirtyWriteBack	0
+CacheL1I:Eviction	6
+CacheL1I:Bypass	0
+CacheL1I:NVMways:reads	0
+CacheL1I:NVMways:writes	0
+CacheL1I:SRAMways:reads	52491865
+CacheL1I:SRAMways:writes	397
+CacheL1I:instructionsDistribution
+CacheL1I:INST_READ	52492262
+CacheL1I:Predictor:TotalMiss:	397
+CacheL1I:Predictor:NVMConflictMiss:	0
+CacheL1I:Predictor:SRAMConflictMiss:	0
+CacheL1I:Predictor:ColdMiss:	397
+CacheL1I:Predictor:CapacityMiss:	0
+CacheL1I:Predictor:PredictorErrors:
+CacheL1I:Predictor:TotalNVMError	0
+CacheL1I:Predictor:NVMError:FromWB	0
+CacheL1I:Predictor:NVMError:FromCore	0
+CacheL1I:Predictor:TotalMigration	0
+CacheL1I:Predictor:SRAMError	0
+CacheL1I:Predictor:BPError	0
+************************************************
+CacheLLC:Results
+CacheLLC:TotalAccess	821061
+CacheLLC:TotalHits	811202
+CacheLLC:TotalMiss	9859
+CacheLLC:MissRate	1.20076%
+CacheLLC:CleanWriteBack	820006
+CacheLLC:DirtyWriteBack	154
+CacheLLC:Eviction	0
+CacheLLC:Bypass	0
+CacheLLC:NVMways:reads	0
+CacheLLC:NVMways:writes	0
+CacheLLC:SRAMways:reads	811196
+CacheLLC:SRAMways:writes	10019
+CacheLLC:MigrationFromNVM	0
+CacheLLC:MigrationFromSRAM	0
+CacheLLC:BlockClassification
+CacheLLC:FetchedBlocks	9859
+CacheLLC:DeadBlocks	1524	15.458%
+CacheLLC:ROBlocks	8181	82.98%
+CacheLLC:WOBlocks	97	0.983873%
+CacheLLC:RWBlocks	4	0.0405721%
+CacheLLC:instructionsDistribution
+CacheLLC:INST_READ	396
+CacheLLC:DATA_READ	820537
+CacheLLC:DATA_WRITE	128
+CacheLLC:Predictor:TotalMiss:	9859
+CacheLLC:Predictor:NVMConflictMiss:	0
+CacheLLC:Predictor:SRAMConflictMiss:	0
+CacheLLC:Predictor:ColdMiss:	9859
+CacheLLC:Predictor:CapacityMiss:	0
+CacheLLC:Predictor:PredictorErrors:
+CacheLLC:Predictor:TotalNVMError	0
+CacheLLC:Predictor:NVMError:FromWB	0
+CacheLLC:Predictor:NVMError:FromCore	0
+CacheLLC:Predictor:TotalMigration	0
+CacheLLC:Predictor:SRAMError	0
+CacheLLC:Predictor:BPError	0
+***************
+Prefetcher:Stats
+Prefetcher:issuedPrefetch	0
+Prefetcher:hitPrefecth	0
+Prefetcher:prefetchErrors	0
+MainMem:ReadFetch	9737
+MainMem:WriteFetch	122
+MainMem:CleanWB	0
+MainMem:DirtyWB	0

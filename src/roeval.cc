@@ -14,6 +14,13 @@ Access element;
 
 int start_debug;
 int compiler_status;
+// The running count of instructions is kept here
+// make it static to help the compiler optimize docount
+static UINT64 icount = 0;
+
+// This function is called before every instruction is executed
+inline VOID docount() { icount++; }
+
 
 //ofstream log_file;
 ofstream output_file;
@@ -21,22 +28,20 @@ ofstream config_file;
 PIN_LOCK lock;
 
 int id;
-//map<uint64_t,string> hashTable;
-//map<int,string> hashTable1;
 bool startInstruFlag;
 map<string,string> PCinst;
 
 
 VOID access(uint64_t pc , uint64_t addr, MemCmd type, int size, int id_thread)
 {
-	PIN_GetLock(&lock, id_thread);
+/*	PIN_GetLock(&lock, id_thread);
 
 	Access my_access = Access(addr, size, pc , type , id_thread);
 	my_access.m_compilerHints = 0;// compiler_status;
 	my_access.m_idthread = 0;
-	my_system->handleAccess(my_access);		
+	my_system->handleAccess(my_access);		*/
 	cpt_time++;
-	PIN_ReleaseLock(&lock);
+//	PIN_ReleaseLock(&lock);
 }
 
 
@@ -103,12 +108,17 @@ VOID startInstru()
 
 VOID Routine(RTN rtn, VOID *v)
 {           
+	// Insert a call to docount before every instruction, no arguments are passed
+    //INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount, IARG_END);
+
 	RTN_Open(rtn);
 		
 	for (INS ins = RTN_InsHead(rtn); INS_Valid(ins); ins = INS_Next(ins)){
 
 		string name = INS_Disassemble(ins);
-		
+		INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount, IARG_END);
+
+
 		INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMemInst,
 		    IARG_INST_PTR,
 		    IARG_UINT32,
@@ -153,6 +163,7 @@ VOID Fini(INT32 code, VOID *v)
 {
 	cout << "EXECUTION FINISHED" << endl;
 	cout << "NB Access handled " << cpt_time << endl;
+	cout << "NB insts handled " << icount << endl;
 	my_system->finishSimu();
 
 	config_file.open(CONFIG_FILE);

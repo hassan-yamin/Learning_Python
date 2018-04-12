@@ -51,7 +51,7 @@ Predictor::Predictor(int nbAssoc , int nbSet, int nbNVMways, DataArray& SRAMtabl
 	/********************************************/ 
 	m_trackError = false;
 	if(m_nbNVMways != 0)
-		m_trackError = true;
+		m_trackError = false; //true hassan
 
 	if(m_trackError){
 	
@@ -333,7 +333,7 @@ Predictor::reportMiss(uint64_t block_addr , int id_set)
 {
 
 	/* Miss classification between cold/conflict/capacity */
-	stats_total_miss++;
+/*	stats_total_miss++;
 	DPRINTF(DebugFUcache , "Predictor::reportMiss block %#lx \n" , block_addr);
 	if(m_accessedBlocks.count(block_addr) == 0)
 	{
@@ -364,11 +364,11 @@ Predictor::reportMiss(uint64_t block_addr , int id_set)
 		if(!find)
 			stats_capacity_miss++;
 		
-	}
+	}*/ //hassan
 	/************************************************************/ 
 
 	/* Check if the block is in the missing tag array */ 
-	if(m_trackError && !m_isWarmup){
+/*	if(m_trackError && !m_isWarmup){
 		//An error in the SRAM part is a block that miss in the SRAM array 
 		//but not in the MT array
 		for(unsigned i = 0 ; i < m_missing_tags[id_set].size() ; i++)
@@ -380,7 +380,7 @@ Predictor::reportMiss(uint64_t block_addr , int id_set)
 				return true;
 			}
 		}	
-	}
+	}hassan */
 	return false;
 }
 

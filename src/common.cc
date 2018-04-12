@@ -177,7 +177,7 @@ init_default_parameters()
 {
 	simu_parameters.enableBP = false;
 	simu_parameters.enableMigration= false;
-	simu_parameters.flagTest = true;	
+	simu_parameters.flagTest = false;	
 	simu_parameters.printDebug = false;
 	
 	simu_parameters.deadSaturationCouter = 3;
@@ -185,8 +185,6 @@ init_default_parameters()
 	simu_parameters.rap_innacuracy_th = 0.9;
 	simu_parameters.learningTH = 20;
 	
-//	simu_parameters.sram_assoc = 4;
-//	simu_parameters.nvm_assoc = 12;
 	simu_parameters.sram_assoc = 16;
 	simu_parameters.nvm_assoc = 0;
 	simu_parameters.nb_sets = 1024;
@@ -202,7 +200,7 @@ init_default_parameters()
 	simu_parameters.enablePCHistoryTracking = false;
 	
 	simu_parameters.nbCores = 1;
-	simu_parameters.policy = "DBAMB";
+	simu_parameters.policy = "LRU";
 
 	simu_parameters.DBAMP_optTarget = "energy";
 	
@@ -212,7 +210,7 @@ init_default_parameters()
 	
 	simu_parameters.nb_bits = 64;
 
-	simu_parameters.sizeMTtags = 4;//simu_parameters.nvm_assoc - simu_parameters.sram_assoc;
+	simu_parameters.sizeMTtags = 4;
 }
 
 

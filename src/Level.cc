@@ -8,16 +8,6 @@
 using namespace std;
 
 
-/*
-Level::Level(){
-	m_dcache = NULL;
-	m_icache = NULL;
-	
-	m_level = -1;
-	m_system = NULL;
-	m_isUnified = true;
-}*/
-
 Level::Level(int id_core, std::vector<ConfigCache> configs, Hierarchy* system) : m_IDcore(id_core), m_system(system){
 	assert(configs.size()  >  0);
 	

@@ -36,16 +36,15 @@ Hierarchy::Hierarchy(string policy, int nbCores)
 	int nvm_assoc = simu_parameters.nvm_assoc;
 	int sram_assoc = simu_parameters.sram_assoc;
 
-	ConfigCache L2config ( (nvm_assoc+sram_assoc)*BLOCK_SIZE*nb_sets , sram_assoc + nvm_assoc, \
-				BLOCK_SIZE , policy , nvm_assoc);
+/*	ConfigCache L2config ( (sram_assoc)*BLOCK_SIZE*nb_sets , sram_assoc, \
+				BLOCK_SIZE , policy , 0);
 	L2config.m_printStats = true;
 	vector<ConfigCache> secondLevelConfig;
-	secondLevelConfig.push_back(L2config);
+	secondLevelConfig.push_back(L2config);*/ //hassan, remoce the second level cache
 	
 		
-	m_nbLevel = 2;
+	m_nbLevel = 1; //2, changed by hassan
 	m_nbCores = nbCores;
-//	m_private_caches.resize(m_nbCores);
 	
 	m_directory = new Directory();
 	
@@ -59,13 +58,13 @@ Hierarchy::Hierarchy(string policy, int nbCores)
 		m_private_caches.push_back(new Level(i , firstLevel, this) );
 	}
 
-	m_LLC = new Level(-1, secondLevelConfig , this);
+//	m_LLC = new Level(-1, secondLevelConfig , this); hassan, remove the second level cache
 	m_start_index = log2(BLOCK_SIZE)-1;
 	
-	stats_cleanWB_MainMem = 0;
+/*	stats_cleanWB_MainMem = 0;
 	stats_dirtyWB_MainMem = 0;
 	stats_writeMainMem = 0;
-	stats_readMainMem = 0;
+	stats_readMainMem = 0;*/ //hassan
 	
 	stats_hitsPrefetch = 0;
 	stats_issuedPrefetchs = 0;
@@ -76,7 +75,7 @@ Hierarchy::~Hierarchy()
 {
 	for(auto p : m_private_caches)
 		delete p;
-	delete m_LLC;
+//	delete m_LLC;
 }
 
 void
@@ -85,7 +84,7 @@ Hierarchy::startWarmup()
 	for(unsigned j = 0 ; j < m_private_caches.size() ; j++)
 		m_private_caches[j]->startWarmup();
 
-	m_LLC->startWarmup();
+//	m_LLC->startWarmup();  hassan, remove the second level cache
 }
 
 void
@@ -93,7 +92,7 @@ Hierarchy::stopWarmup()
 {
 	for(unsigned j = 0 ; j < m_private_caches.size() ; j++)
 		m_private_caches[j]->stopWarmup();
-	m_LLC->stopWarmup();
+//	m_LLC->stopWarmup();  hassan, remove the second level cache
 }
 
 
@@ -108,7 +107,7 @@ Hierarchy::printResults(ostream& out)
 	}
 //	out << "***************" << endl;
 //	out << "Last Level Cache : " << endl;
-	m_LLC->printResults(out);
+//	m_LLC->printResults(out);  hassan, remove the second level cache
 	out << "***************" << endl;
 
 	out << "Prefetcher:Stats" << endl;
@@ -138,8 +137,8 @@ Hierarchy::printConfig(ostream& out)
 		m_private_caches[j]->printConfig(out);
 	}
 	out << "***************" << endl;
-	out << "Last Level Cache : " << endl;
-	m_LLC->printConfig(out);
+//	out << "Last Level Cache : " << endl;  hassan, remove the second level cache
+//	m_LLC->printConfig(out);  hassan, remove the second level cache
 }
 
 void
@@ -155,10 +154,10 @@ Hierarchy::signalWB(uint64_t addr, bool isDirty , bool isKept, int idcore)
 	if(idcore == -1)
 	{	
 		// It is a WB from the LLC to the Main Mem
-		if(isDirty)
+		/*if(isDirty)
 			stats_dirtyWB_MainMem++;		
 		else
-			stats_cleanWB_MainMem++;
+			stats_cleanWB_MainMem++;*/ //commented out by hassan
 			
 		m_directory->removeEntry(addr);
 	}			
@@ -166,7 +165,7 @@ Hierarchy::signalWB(uint64_t addr, bool isDirty , bool isKept, int idcore)
 		//Remove the idcore from the tracker list and update the state
 		if(!isKept)
 			m_directory->removeTracker(addr , idcore);
-		m_LLC->handleWB(addr , isDirty);
+	//	m_LLC->handleWB(addr , isDirty);  hassan, remove the second level cache
 		m_directory->updateEntry(addr);
 	}
 }
@@ -178,7 +177,7 @@ Hierarchy::finishSimu()
 	{
 		m_private_caches[j]->finishSimu();
 	}
-	m_LLC->finishSimu();
+//	m_LLC->finishSimu();  hassan, remove the second level cache
 }
 
 
@@ -204,7 +203,7 @@ Hierarchy::prefetchAddress(Access element)
 	
 	if(dir_state == NOT_PRESENT)
 	{
-		m_LLC->handleAccess(element);
+	//	m_LLC->handleAccess(element);  hassan, remove the second level cache
 		m_directory->updateEntry(block_addr);
 		m_directory->setCoherenceState(block_addr, CLEAN_LLC);	
 		stats_issuedPrefetchs++;
@@ -223,7 +222,7 @@ Hierarchy::handleAccess(Access element)
 	uint64_t addr = element.m_address;
 	uint64_t block_addr = bitRemove(addr , 0 , m_start_index+1);
 	int id_thread = (int) element.m_idthread;
-	int id_core = convertThreadIDtoCore(id_thread);
+	int id_core = convertThreadIDtoCore(id_thread); 
 	
 	assert(id_core < (int)m_nbCores);	
 	
@@ -233,27 +232,32 @@ Hierarchy::handleAccess(Access element)
 	}
 	assert(entry != NULL);
 		
-	DirectoryState dir_state = m_directory->getEntry(block_addr)->coherence_state;
+	//DirectoryState dir_state = m_directory->getEntry(block_addr)->coherence_state; commented out by hassan
+	
 	
 	entry->print();
 	bool doPrefetch = true;
 //	bool isInHierarchy = true;
-	
+    // just access the element, no need to check or change directory state, modified by hassan
+	m_private_caches[id_core]->handleAccess(element); //added by hassan
+	m_directory->updateEntry(block_addr); //added by hassan
+
+	/*
 	if(dir_state == NOT_PRESENT)
 	{
 //		isInHierarchy = false;
 		m_directory->setTrackerToEntry(block_addr, id_core);			
 
 		m_private_caches[id_core]->handleAccess(element);		
-		m_LLC->handleAccess(element);
+	//	m_LLC->handleAccess(element);
 		m_directory->updateEntry(block_addr);
 
 		m_directory->setCoherenceState(block_addr, EXCLUSIVE_L1);
 		
-		if(element.isWrite())
-			stats_writeMainMem++;
-		else
-			stats_readMainMem++;
+		//if(element.isWrite()) //hassan
+		//	stats_writeMainMem++;
+	//  else
+			stats_readMainMem++; //hassan
 	}
 	else if(dir_state == CLEAN_LLC || dir_state == DIRTY_LLC)
 	{
@@ -261,11 +265,11 @@ Hierarchy::handleAccess(Access element)
 		m_directory->setTrackerToEntry(block_addr, id_core);			
 
 		m_private_caches[id_core]->handleAccess(element);
-		m_LLC->handleAccess(element);
+	//	m_LLC->handleAccess(element);  hassan, remove the second level cache
 		
-		/* Prefetch stats collection */ 
-		stats_hitsPrefetch += m_LLC->isPrefetchBlock(element.m_address) ? 1 : 0;
-		m_LLC->resetPrefetchFlag(element.m_address);
+		// Prefetch stats collection  
+	//	stats_hitsPrefetch += m_LLC->isPrefetchBlock(element.m_address) ? 1 : 0;  hassan, remove the second level cache
+	//	m_LLC->resetPrefetchFlag(element.m_address);  hassan, remove the second level cache
 		
 		m_directory->updateEntry(block_addr);
 		
@@ -293,7 +297,7 @@ Hierarchy::handleAccess(Access element)
 				m_directory->setCoherenceState(block_addr, SHARED_L1);
 
 			}
-			m_LLC->handleAccess(element);
+		//	m_LLC->handleAccess(element);  hassan, remove the second level cache
 			m_directory->updateEntry(block_addr);
 			m_private_caches[id_core]->handleAccess(element);
 		
@@ -322,7 +326,7 @@ Hierarchy::handleAccess(Access element)
 			m_directory->setCoherenceState(block_addr, EXCLUSIVE_L1);
 			
 			//We write the new version to the LLC 
-			m_LLC->handleAccess(element);
+		//	m_LLC->handleAccess(element);  hassan, remove the second level cache
 			m_directory->updateEntry(block_addr);
 			m_private_caches[id_core]->handleAccess(element);
 		}
@@ -334,7 +338,7 @@ Hierarchy::handleAccess(Access element)
 		}
 	}
 
-
+*/
 	if(doPrefetch && simu_parameters.enablePrefetch) //We generate prefetch only for LLC demand accesses 
 	{
 		vector<uint64_t> prefetch_addresses = m_prefetcher->getNextAddress(element.m_address);
@@ -363,7 +367,7 @@ Hierarchy::openNewTimeFrame()
 			m_private_caches[i]->openNewTimeFrame();
 		}
 		
-		m_LLC->openNewTimeFrame();
+	//	m_LLC->openNewTimeFrame();  hassan, remove the second level cache
 		
 		stats_beginTimeFrame = cpt_time;
 }
@@ -385,7 +389,7 @@ Hierarchy::L1sdeallocate(uint64_t addr)
 		for(auto node : nodes)
 			isDirty = isDirty || m_private_caches[node]->receiveInvalidation(addr);
 		
-		m_LLC->getEntry(addr)->isDirty = isDirty;
+	//	m_LLC->getEntry(addr)->isDirty = isDirty;  hassan, remove the second level cache
 		
 		m_directory->resetTrackersToEntry(addr);
 		m_directory->setCoherenceState(addr , CLEAN_LLC);

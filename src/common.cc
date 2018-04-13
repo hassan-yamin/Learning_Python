@@ -185,32 +185,32 @@ init_default_parameters()
 	simu_parameters.rap_innacuracy_th = 0.9;
 	simu_parameters.learningTH = 20;
 	
-	simu_parameters.sram_assoc = 16;
-	simu_parameters.nvm_assoc = 0;
-	simu_parameters.nb_sets = 1024;
+	simu_parameters.sram_assoc = 16; //nothing to do with me, hassan
+	simu_parameters.nvm_assoc = 0; //nothing to do with me, hassan	
+	simu_parameters.nb_sets = 1024; //nothing to do with me, hassan
 
-	simu_parameters.rap_assoc = 128;
-	simu_parameters.rap_sets = 128;
+	simu_parameters.rap_assoc = 128; //nothing to do with me, hassan
+	simu_parameters.rap_sets = 128;//nothing to do with me, hassan
 	
 	simu_parameters.prefetchDegree = 2;
 	simu_parameters.prefetchStreams = 16; 
 	simu_parameters.enablePrefetch = false;
 
-	simu_parameters.enableReuseErrorComputation = false;
-	simu_parameters.enablePCHistoryTracking = false;
+	simu_parameters.enableReuseErrorComputation = false; //nothing to do with me, hassan
+	simu_parameters.enablePCHistoryTracking = false; //nothing to do with me, hassan
 	
 	simu_parameters.nbCores = 1;
 	simu_parameters.policy = "LRU";
 
-	simu_parameters.DBAMP_optTarget = "energy";
+//	simu_parameters.DBAMP_optTarget = "energy"; hassan
 	
-	simu_parameters.saturation_threshold = 2;
+	simu_parameters.saturation_threshold = 2; //nothing to do with me, hassan
 	
-	simu_parameters.cost_threshold = 50;
+	simu_parameters.cost_threshold = 50;//nothing to do with me, hassan
 	
-	simu_parameters.nb_bits = 64;
+	simu_parameters.nb_bits = 64;//nothing to do with me, hassan
 
-	simu_parameters.sizeMTtags = 4;
+	simu_parameters.sizeMTtags = 4;//nothing to do with me, hassan
 }
 
 

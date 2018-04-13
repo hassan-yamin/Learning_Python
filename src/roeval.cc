@@ -34,14 +34,14 @@ map<string,string> PCinst;
 
 VOID access(uint64_t pc , uint64_t addr, MemCmd type, int size, int id_thread)
 {
-/*	PIN_GetLock(&lock, id_thread);
+	PIN_GetLock(&lock, id_thread);
 
 	Access my_access = Access(addr, size, pc , type , id_thread);
 	my_access.m_compilerHints = 0;// compiler_status;
 	my_access.m_idthread = 0;
-	my_system->handleAccess(my_access);		*/
+	my_system->handleAccess(my_access);
 	cpt_time++;
-//	PIN_ReleaseLock(&lock);
+	PIN_ReleaseLock(&lock);
 }
 
 

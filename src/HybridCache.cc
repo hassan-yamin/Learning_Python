@@ -656,7 +656,7 @@ HybridCache::blockAddressToCacheSet(uint64_t block_addr)
 }
 
 CacheEntry*
-HybridCache::getEntry(uint64_t addr)
+HybridCache::getEntry(uint64_t addr) // find the block in the cache, hassan
 {
 	uint64_t block_addr =  bitRemove(addr , 0 , m_start_index+1);
 
@@ -760,24 +760,24 @@ HybridCache::printResults(std::ostream& out)
 	
 		out << entete << ":Results" << endl;
 		out << entete << ":TotalAccess\t"<< total_access << endl;
-		out << entete << ":TotalHits\t" << total_access - total_miss << endl;
-		out << entete << ":TotalMiss\t" << total_miss << endl;		
+	//	out << entete << ":TotalHits\t" << total_access - total_miss << endl;
+	//	out << entete << ":TotalMiss\t" << total_miss << endl;		
 		out << entete << ":MissRate\t" << (double)(total_miss)*100 / (double)(total_access) << "%"<< endl;
-		out << entete << ":CleanWriteBack\t" << stats_cleanWBNVM + stats_cleanWBSRAM << endl;
-		out << entete << ":DirtyWriteBack\t" << stats_dirtyWBNVM + stats_dirtyWBSRAM << endl;
-		out << entete << ":Eviction\t" << stats_evict << endl;	
-		out << entete << ":Bypass\t" << stats_bypass << endl;
+	//	out << entete << ":CleanWriteBack\t" << stats_cleanWBNVM + stats_cleanWBSRAM << endl;
+	//	out << entete << ":DirtyWriteBack\t" << stats_dirtyWBNVM + stats_dirtyWBSRAM << endl;
+	//	out << entete << ":Eviction\t" << stats_evict << endl;	
+	//	out << entete << ":Bypass\t" << stats_bypass << endl;
 	
-		out << entete << ":NVMways:reads\t"<< stats_hitsNVM[0] + stats_migration[true]<< endl;
-		out << entete << ":NVMways:writes\t"<< stats_hitsNVM[1] + stats_dirtyWBNVM + stats_migration[false] << endl;		
-		out << entete << ":SRAMways:reads\t"<< stats_hitsSRAM[0] + stats_migration[false] << endl;
-		out << entete << ":SRAMways:writes\t"<< stats_hitsSRAM[1] + stats_dirtyWBSRAM + stats_migration[true]<< endl;	
+	//	out << entete << ":NVMways:reads\t"<< stats_hitsNVM[0] + stats_migration[true]<< endl;
+	//	out << entete << ":NVMways:writes\t"<< stats_hitsNVM[1] + stats_dirtyWBNVM + stats_migration[false] << endl;		
+	//	out << entete << ":SRAMways:reads\t"<< stats_hitsSRAM[0] + stats_migration[false] << endl;
+	//	out << entete << ":SRAMways:writes\t"<< stats_hitsSRAM[1] + stats_dirtyWBSRAM + stats_migration[true]<< endl;	
 		
 		//cout << "************************" << endl;
 		
 		if(m_printStats)
 		{
-			out << entete << ":MigrationFromNVM\t" << stats_migration[true] << endl;
+	/*		out << entete << ":MigrationFromNVM\t" << stats_migration[true] << endl;
 			out << entete << ":MigrationFromSRAM\t" << stats_migration[false] << endl;
 			out << entete << ":BlockClassification" << endl;
 			out << entete << ":FetchedBlocks\t" << stats_nbFetchedLines << endl;
@@ -788,7 +788,7 @@ HybridCache::printResults(std::ostream& out)
 			out << entete << ":WOBlocks\t" << stats_nbWOlines << "\t" << \
 				(double)stats_nbWOlines*100/(double)stats_nbFetchedLines << "%" << endl;
 			out << entete << ":RWBlocks\t" << stats_nbRWlines << "\t" << \
-				(double)stats_nbRWlines*100/(double)stats_nbFetchedLines << "%" << endl;
+				(double)stats_nbRWlines*100/(double)stats_nbFetchedLines << "%" << endl;*/ //hassan was here
 			/*
 			out << "Histogram NB Write" << endl;
 			for(auto p : stats_histo_ratioRW){

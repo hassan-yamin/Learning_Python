@@ -333,9 +333,9 @@ Predictor::reportMiss(uint64_t block_addr , int id_set)
 {
 
 	/* Miss classification between cold/conflict/capacity */
-/*	stats_total_miss++;
+	stats_total_miss++;
 	DPRINTF(DebugFUcache , "Predictor::reportMiss block %#lx \n" , block_addr);
-	if(m_accessedBlocks.count(block_addr) == 0)
+/*	if(m_accessedBlocks.count(block_addr) == 0)
 	{
 		stats_cold_miss++;
 		DPRINTF(DebugFUcache , "Predictor::reportMiss block not been accessed \n" );

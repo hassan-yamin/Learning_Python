@@ -64,7 +64,7 @@ Directory::~Directory()
 
 
 DirectoryEntry*
-Directory::addEntry(uint64_t addr , bool isInst)
+Directory::addEntry(uint64_t addr , bool isInst) //add an entry to the cache, hassan
 {
 	if(getEntry(addr) != NULL)
 		return getEntry(addr);	
